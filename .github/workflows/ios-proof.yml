@@ -1,5 +1,13 @@
-name: Prueba iOS (manual)
+name: Prueba iOS
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'Galeria/**'
+      - 'Galeria.xcodeproj/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/ios-proof.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -8,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
+    if: ${{ github.event.repository.private == false }}
     runs-on: macos-15
     timeout-minutes: 15
     steps:

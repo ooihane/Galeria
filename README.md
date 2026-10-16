@@ -27,17 +27,20 @@ La reducción de ruido no recupera detalles ausentes en fotos con zoom.
 
 El proyecto requiere Xcode en macOS para compilar. Windows se utiliza para descargar,
 firmar e instalar el paquete; no necesita escribir código ni instalar Python para usar el artefacto.
-El repositorio incluye un workflow **manual**, sin ejecución automática por push ni por pull request.
+El repositorio incluye un workflow automático para cambios de código en `main` y ejecución manual.
+El job solo se ejecuta si GitHub identifica el repositorio como público; en privados se omite.
+Usa el runner estándar `macos-15`, incluido en Actions gratuito para repositorios públicos.
 
-1. Una vez publicado este código en GitHub, comprobar primero en Billing/Actions la cuota
-   incluida, cómo se factura macOS y que no se permite gasto adicional. No introducir un
-   método de pago para esta prueba. Si no se puede garantizar coste cero, no ejecutar.
-2. En Actions, ejecutar **Prueba iOS (manual)** sobre la rama con estos archivos.
+1. En el repositorio público, el push de cambios de código a `main` inicia **Prueba iOS**.
+   No habilitar runners de pago ni retirar la condición que excluye repositorios privados.
+2. Para repetir sin cambios, ejecutar **Prueba iOS** manualmente en Actions.
 3. Descargar el artefacto `Galeria-unsigned` cuando ambos builds terminen correctamente.
 4. Extraer `Galeria-unsigned.ipa`. **No se instala directamente: está sin firmar.**
 5. Seguir [la prueba en Windows e iPhone](docs/PRUEBA-IPHONE.md).
 
-El límite de 15 minutos y la ejecución manual reducen consumo, pero **no garantizan coste cero**.
+El job usa únicamente un runner estándar en repositorio público, con límite de 15 minutos.
+Referencia de gratuidad: https://github.com/features/actions . Si se desea hacer privado el
+repositorio, detenerse y revisar la cuota: el workflow actual omite esos repositorios.
 El workflow no contiene certificados, cuentas Apple ni secretos. No publica ni distribuye la app.
 Usa el Xcode predeterminado de `macos-15`; registra su versión en el log. Si deja de ser
 compatible con el dispositivo/SDK, habrá que revisar el runner antes de seguir.
