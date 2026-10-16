@@ -1,7 +1,11 @@
 # Galería para iPhone
 
 Aplicación nativa personal, en español, basada en la fototeca real de Apple.
-**Estado: primera prueba técnica implementada; compilación con Xcode e instalación física pendientes.**
+**Estado: prueba técnica compilada correctamente para iPhone y simulador en GitHub Actions; firma e instalación física pendientes.**
+
+Build verificado: [ejecución #1](https://github.com/ooihane/Galeria/actions/runs/38983623148),
+commit `3a0a157`. Artefacto `Galeria-unsigned` generado correctamente.
+Su compilación no demuestra todavía compatibilidad de firma con el iPhone ni renovación gratuita.
 
 La [especificación maestra](docs/ESPECIFICACION.md) conserva el alcance completo.
 La autorización posterior del usuario permite implementar primero la prueba de viabilidad.

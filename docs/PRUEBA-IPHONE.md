@@ -2,7 +2,8 @@
 
 ## Puerta de entrada
 
-No está probada todavía. No hay certificado de distribución ni membresía de pago.
+La compilación de dispositivo y simulador ha pasado en [GitHub Actions](https://github.com/ooihane/Galeria/actions/runs/38983623148).
+La firma, instalación y renovación todavía no están probadas. No hay certificado de distribución ni membresía de pago.
 La prueba requiere una cuenta Apple gratuita, conexión USB y una herramienta compatible
 que firme personalmente el IPA en Windows. Consultar https://sideloadly.io/ y las
 condiciones de Apple vigentes antes de introducir credenciales o instalar herramientas.
@@ -35,7 +36,7 @@ Registrar resultado, versión de iOS, herramienta y fecha; no marcar pasos no ej
 
 | Comprobación | Resultado inicial |
 | --- | --- |
-| Compilación de dispositivo y simulador en CI | Pendiente |
+| Compilación de dispositivo y simulador en CI | Correcta, ejecución #1, commit `3a0a157` |
 | Firma personal e instalación | Pendiente |
 | Apertura en iPhone 13 | Pendiente |
 | Permiso denegado: mensaje correcto, sin bloqueo | Pendiente |
