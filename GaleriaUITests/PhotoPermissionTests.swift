@@ -18,5 +18,9 @@ final class PhotoPermissionTests: XCTestCase {
         XCTAssertTrue(allow.waitForExistence(timeout: 5), system.debugDescription)
         allow.tap()
         XCTAssertTrue(app.staticTexts["Acceso: completo"].waitForExistence(timeout: 15), app.debugDescription)
+        app.terminate()
+        app.launch()
+        XCTAssertTrue(app.staticTexts["Acceso: completo"].waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertFalse(app.buttons["Permitir acceso a Fotos"].exists)
     }
 }

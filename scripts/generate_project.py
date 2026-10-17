@@ -49,8 +49,8 @@ def generate():
             INFOPLIST_KEY_UILaunchScreen_Generation = YES;
             INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
             TARGETED_DEVICE_FAMILY = 1;
-            MARKETING_VERSION = 0.1.0;
-            CURRENT_PROJECT_VERSION = 1;
+            MARKETING_VERSION = 0.1.1;
+            CURRENT_PROJECT_VERSION = 2;
             SWIFT_VERSION = 5.0;
             SWIFT_OPTIMIZATION_LEVEL = "{opt}";
             CODE_SIGN_STYLE = Automatic;

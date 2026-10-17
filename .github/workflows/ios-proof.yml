@@ -30,6 +30,15 @@ jobs:
         run: bash scripts/build-ios.sh
       - name: Comprobar permiso de Fotos en simulador
         run: bash scripts/test-ios.sh
+      - name: Resumen de la prueba de permisos
+        if: always()
+        run: |
+          if [ -d build/PhotoPermission.xcresult ]; then
+            echo '### Resultado de la prueba de Fotos' >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            xcrun xcresulttool get test-results summary --path build/PhotoPermission.xcresult >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Guardar resultados del permiso
         if: always()
         uses: actions/upload-artifact@v4

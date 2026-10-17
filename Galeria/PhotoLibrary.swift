@@ -18,10 +18,13 @@ final class PhotoLibrary: NSObject, ObservableObject, PHPhotoLibraryChangeObserv
     @Published var favorites = 0
     @Published var message: String?
     @Published var busy = false
+    @Published var requestingAccess = false
+    @Published var permissionMessage: String?
+    private var observingChanges = false
+    private var permissionTimeout: Task<Void, Never>?
 
     override init() {
         super.init()
-        PHPhotoLibrary.shared().register(self)
         refresh()
     }
 
@@ -31,9 +34,54 @@ final class PhotoLibrary: NSObject, ObservableObject, PHPhotoLibraryChangeObserv
         Task { @MainActor [weak self] in self?.refresh() }
     }
 
-    func requestAccess() async {
-        _ = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
-        refresh()
+    func requestAccess() {
+        guard !requestingAccess else { return }
+        status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        guard status == .notDetermined else {
+            refresh()
+            permissionMessage = status == .denied
+                ? "El acceso está denegado. Puedes cambiarlo en Ajustes."
+                : "El estado del permiso se ha actualizado."
+            return
+        }
+        guard UIApplication.shared.applicationState == .active else {
+            permissionMessage = "Abre Galería en primer plano y vuelve a pulsar el botón."
+            return
+        }
+        guard let explanation = Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") as? String,
+              !explanation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            permissionMessage = "Esta instalación no contiene la descripción del permiso de Fotos. Es necesario actualizar la aplicación."
+            return
+        }
+        requestingAccess = true
+        permissionMessage = "Solicitud enviada a iOS. Esperando tu elección…"
+        // Invoke PhotoKit directly from the foreground button action; use the
+        // documented completion handler and explicitly return UI updates to MainActor.
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.permissionTimeout?.cancel()
+                self.requestingAccess = false
+                self.refresh()
+                switch self.status {
+                case .authorized: self.permissionMessage = nil
+                case .limited: self.permissionMessage = "Solo se mostrarán las fotos que has autorizado."
+                case .denied: self.permissionMessage = "Acceso denegado. Puedes cambiarlo en Ajustes."
+                case .restricted: self.permissionMessage = "iOS restringe el acceso a Fotos en este dispositivo."
+                case .notDetermined: self.permissionMessage = "iOS ha respondido sin conceder ni denegar el acceso."
+                @unknown default: self.permissionMessage = "iOS devolvió un estado de permiso desconocido."
+                }
+            }
+        }
+        permissionTimeout = Task { [weak self] in
+            do { try await Task.sleep(for: .seconds(15)) } catch { return }
+            guard let self, self.requestingAccess else { return }
+            self.requestingAccess = false
+            self.refresh()
+            if self.status == .notDetermined {
+                self.permissionMessage = "iOS todavía no ha respondido a la solicitud. Si no aparece ningún aviso, comunica este mensaje junto con la versión de Galería indicada abajo."
+            }
+        }
     }
 
     func refresh() {
@@ -41,6 +89,10 @@ final class PhotoLibrary: NSObject, ObservableObject, PHPhotoLibraryChangeObserv
         guard status == .authorized || status == .limited else {
             assets = []; albums = []; total = 0; favorites = 0
             return
+        }
+        if !observingChanges {
+            PHPhotoLibrary.shared().register(self)
+            observingChanges = true
         }
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]

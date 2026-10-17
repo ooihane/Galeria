@@ -3,6 +3,7 @@ import Photos
 
 struct ContentView: View {
     @StateObject private var library = PhotoLibrary()
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selected: PHAsset?
     @State private var showPreview = false
     @State private var confirmAlbum = false
@@ -16,14 +17,32 @@ struct ContentView: View {
                     Section("Prueba técnica · no borra fotos") {
                         Text("Acceso: \(authorizationLabel)")
                         if !hasAccess {
-                            Button("Permitir acceso a Fotos") { Task { await library.requestAccess() } }
-                            Text("Si lo has denegado, puedes cambiar el permiso en Ajustes → Apps → Galería → Fotos.")
-                                .font(.footnote)
+                            if library.status == .notDetermined {
+                                Button("Permitir acceso a Fotos") { library.requestAccess() }
+                                    .buttonStyle(.borderedProminent)
+                                    .disabled(library.requestingAccess)
+                                if library.requestingAccess {
+                                    ProgressView("Esperando permiso de iOS…")
+                                }
+                            } else if library.status == .denied {
+                                Button("Abrir ajustes de Galería") {
+                                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            } else if library.status == .restricted {
+                                Text("iOS restringe el acceso. Comprueba las restricciones del dispositivo o de Tiempo de uso.")
+                            }
                         } else {
                             Text("\(library.total) elementos accesibles · \(library.favorites) favoritos")
                             Text("Se muestran como máximo los 60 elementos más recientes. Esta pantalla de diagnóstico aún no es la cuadrícula definitiva.")
                                 .font(.footnote)
                         }
+                        if let message = library.permissionMessage {
+                            Text(message).font(.callout).accessibilityIdentifier("photo-permission-message")
+                        }
+                        Text("Versión \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))")
+                            .font(.caption).foregroundStyle(.secondary)
                         if library.status == .limited {
                             Text("Acceso limitado: los recuentos y álbumes no representan toda tu fototeca.")
                         }
@@ -91,6 +110,9 @@ struct ContentView: View {
                     }
                 }.navigationTitle("Organizar")
             }.tabItem { Label("Organizar", systemImage: "slider.horizontal.3") }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { library.refresh() }
         }
     }
 

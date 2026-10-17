@@ -3,7 +3,9 @@
 ## Puerta de entrada
 
 La compilación de dispositivo y simulador ha pasado en [GitHub Actions](https://github.com/ooihane/Galeria/actions/runs/38983623148).
-La firma, instalación y renovación todavía no están probadas. No hay certificado de distribución ni membresía de pago.
+El usuario ha confirmado firma gratuita, instalación y apertura en su iPhone mediante iLoader.
+El acceso a Fotos falla en la versión 0.1.0: al pulsar el botón permanece «sin solicitar».
+La renovación todavía no está probada. No hay certificado de distribución ni membresía de pago.
 La prueba requiere una cuenta Apple gratuita, conexión USB y una herramienta compatible
 que firme personalmente el IPA en Windows. Consultar https://sideloadly.io/ y las
 condiciones de Apple vigentes antes de introducir credenciales o instalar herramientas.
@@ -37,8 +39,8 @@ Registrar resultado, versión de iOS, herramienta y fecha; no marcar pasos no ej
 | Comprobación | Resultado inicial |
 | --- | --- |
 | Compilación de dispositivo y simulador en CI | Correcta, ejecución #1, commit `3a0a157` |
-| Firma personal e instalación | Pendiente |
-| Apertura en iPhone 13 | Pendiente |
+| Firma personal e instalación | Confirmada por el usuario con iLoader |
+| Apertura en iPhone 13 | Confirmada por el usuario |
 | Permiso denegado: mensaje correcto, sin bloqueo | Pendiente |
 | Permiso limitado: recuento restringido y aviso | Pendiente |
 | Permiso completo: lectura de biblioteca | Pendiente |
@@ -72,3 +74,20 @@ La fototeca de Apple no pertenece al almacenamiento privado de Galería.
 No declarar viable la ruta gratuita hasta haber compilado, instalado y renovado en el
 hardware real sin cargos. Si falla, diagnosticar el paso y no desarrollar el producto
 completo sobre una ruta de instalación no demostrada.
+
+## Revisión de permisos 0.1.1 (2)
+
+Ante el fallo informado, la solicitud se invoca directamente desde el botón en primer plano
+con el callback público de PhotoKit. El registro del observador se difiere hasta tener acceso.
+La interfaz muestra espera, respuesta o falta de respuesta a los 15 segundos, así como la versión.
+Al regresar desde Ajustes se vuelve a consultar la autorización. No se ha confirmado aún la
+causa del fallo en el dispositivo; estos cambios no deben describirse como una reparación
+verificada en el iPhone hasta que se pruebe la nueva versión.
+
+Se añade una prueba XCUITest en un simulador limpio: pulsar el botón, comprobar el aviso
+real de iOS, conceder acceso y verificar persistencia al relanzar la app. Se guarda el xcresult
+para revisar fallos. No se utilizan fotos reales ni operaciones destructivas.
+
+Instalar el nuevo IPA con iLoader, misma cuenta y configuración de identificación; no hace
+falta reinstalar iTunes ni cambiar servidores si la autenticación ya funciona. Comprobar que
+la pantalla dice «Versión 0.1.1 (2)» para descartar que se haya elegido el IPA anterior.
