@@ -1,15 +1,21 @@
 # Galería para iPhone
 
 Aplicación nativa personal, en español, basada en la fototeca real de Apple.
-**Estado: prueba técnica compilada correctamente para iPhone y simulador en GitHub Actions; firma e instalación física pendientes.**
+**Estado: firma gratuita, instalación y apertura confirmadas por el usuario en su iPhone. Acceso a Fotos en investigación; renovación pendiente.**
 
 Build verificado: [ejecución #1](https://github.com/ooihane/Galeria/actions/runs/38983623148),
 commit `3a0a157`. Artefacto `Galeria-unsigned` generado correctamente.
-Su compilación no demuestra todavía compatibilidad de firma con el iPhone ni renovación gratuita.
+La instalación se ha conseguido con iLoader seleccionando StikStore (secondary) como servidor Anisette,
+tras errores de autenticación con otras herramientas/servidores. La renovación sigue pendiente.
 
 La [especificación maestra](docs/ESPECIFICACION.md) conserva el alcance completo.
 La autorización posterior del usuario permite implementar primero la prueba de viabilidad.
-No se han validado aún la compatibilidad con iOS 26.6.2 ni las condiciones actuales del método gratuito.
+La versión 0.1.0 abre en el iPhone del usuario, pero su botón de permisos permanece «sin solicitar».
+La revisión 0.1.1 (2) cambia la solicitud y añade estados visibles de espera y respuesta.
+Ha pasado la [prueba de permisos en simulador](https://github.com/ooihane/Galeria/actions/runs/38989193476):
+aviso de iOS, acceso completo y persistencia al relanzar. También compila para dispositivo.
+El artefacto actualizado es `Galeria-unsigned` de esa ejecución (commit `359a98c`).
+No declarar resuelto el acceso en hardware hasta que el usuario pruebe ese IPA.
 
 ## Prueba implementada
 
@@ -68,6 +74,10 @@ python3 -m unittest discover -s tests -v
 ```
 
 Estas pruebas usan archivos ficticios: **no compilan Swift, no ejecutan la app y no prueban firma**.
+
+El workflow también ejecuta `bash scripts/test-ios.sh` en macOS: XCUITest pulsa el botón,
+comprueba el aviso real de Fotos, concede acceso y verifica que persiste al relanzar.
+El xcresult y su resumen se guardan en Actions; un test pendiente o cancelado no cuenta como pasado.
 No confundirlas con la validación pendiente del iPhone.
 
 ## Restricciones y siguientes pasos

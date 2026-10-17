@@ -91,3 +91,10 @@ para revisar fallos. No se utilizan fotos reales ni operaciones destructivas.
 Instalar el nuevo IPA con iLoader, misma cuenta y configuración de identificación; no hace
 falta reinstalar iTunes ni cambiar servidores si la autenticación ya funciona. Comprobar que
 la pantalla dice «Versión 0.1.1 (2)» para descartar que se haya elegido el IPA anterior.
+
+Validación de la revisión: [ejecución de CI 38989193476](https://github.com/ooihane/Galeria/actions/runs/38989193476),
+commit `359a98c`, completada correctamente. Pasaron empaquetado, compilación para dispositivo
+y la prueba XCUITest del aviso, concesión y persistencia del permiso en simulador.
+La ejecución preliminar `38988732671` fue cancelada al sustituirla por esta revisión y no
+cuenta como una prueba pasada ni como reproducción confirmada de la causa original.
+La confirmación en el iPhone del usuario sigue pendiente.
