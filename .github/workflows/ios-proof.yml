@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'Galeria/**'
+      - 'GaleriaUITests/**'
       - 'Galeria.xcodeproj/**'
       - 'scripts/**'
       - 'tests/**'
@@ -27,12 +28,16 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Compilar para iPhone y preparar paquete sin firmar
         run: bash scripts/build-ios.sh
-      - name: Compilar también para simulador
-        run: >-
-          xcodebuild -project Galeria.xcodeproj -scheme Galeria
-          -configuration Debug -sdk iphonesimulator
-          -destination 'generic/platform=iOS Simulator'
-          -derivedDataPath build/simulator CODE_SIGNING_ALLOWED=NO build
+      - name: Comprobar permiso de Fotos en simulador
+        run: bash scripts/test-ios.sh
+      - name: Guardar resultados del permiso
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PhotoPermission-results
+          path: build/PhotoPermission.xcresult
+          retention-days: 3
+          if-no-files-found: ignore
       - name: Guardar paquete (no instalable sin firma)
         uses: actions/upload-artifact@v4
         with:

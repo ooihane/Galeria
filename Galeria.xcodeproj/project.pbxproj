@@ -10,8 +10,19 @@ AA06FB3278F96FB61BB8B2B3 = { isa = PBXFileReference; lastKnownFileType = sourcec
 58C2293DB3F0FAD232E0A96E = { isa = PBXBuildFile; fileRef = 98BDC8E716BCE3B260497404; };
 A172CEDCAE47474B615C54D5 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = Galeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 26528A5FC3CFAE9924D0FA33 = { isa = PBXGroup; children = (B72A09A96314C82D344322CC,58A66E3CD729BBF0F9203C54,AA06FB3278F96FB61BB8B2B3,98BDC8E716BCE3B260497404,); path = Galeria; sourceTree = "<group>"; };
-0A3E27B8CA818264D75C8D81 = { isa = PBXGroup; children = (A172CEDCAE47474B615C54D5,); name = Products; sourceTree = "<group>"; };
-E991C021ABBD2DA6DF032C23 = { isa = PBXGroup; children = (26528A5FC3CFAE9924D0FA33,0A3E27B8CA818264D75C8D81,); sourceTree = "<group>"; };
+0A3E27B8CA818264D75C8D81 = { isa = PBXGroup; children = (A172CEDCAE47474B615C54D5,93B29C63186928624CCE7B68,); name = Products; sourceTree = "<group>"; };
+7F16127A705CE9026E9E31A8 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPermissionTests.swift; sourceTree = "<group>"; };
+4B9D9ECE8BF27BC82CDAF15C = { isa = PBXBuildFile; fileRef = 7F16127A705CE9026E9E31A8; };
+4D805372C7788730A442D754 = { isa = PBXGroup; children = (7F16127A705CE9026E9E31A8,); path = GaleriaUITests; sourceTree = "<group>"; };
+93B29C63186928624CCE7B68 = { isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = GaleriaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+6AD5D292D15FD66B4DB37194 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (4B9D9ECE8BF27BC82CDAF15C,); runOnlyForDeploymentPostprocessing = 0; };
+98F775ACC2BC91B12FF68F75 = { isa = PBXContainerItemProxy; containerPortal = 244210E48437B6556980A702; proxyType = 1; remoteGlobalIDString = 34A04005BCAF206EEC990BD9; remoteInfo = Galeria; };
+FD701F7B039F2322FD3D8588 = { isa = PBXTargetDependency; target = 34A04005BCAF206EEC990BD9; targetProxy = 98F775ACC2BC91B12FF68F75; };
+156F725150A84FCB69393542 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_NAME = GaleriaUITests; PRODUCT_BUNDLE_IDENTIFIER = com.galeria.personal.uitests; GENERATE_INFOPLIST_FILE = YES; TEST_TARGET_NAME = Galeria; TARGETED_DEVICE_FAMILY = 1; SWIFT_VERSION = 5.0; CODE_SIGN_STYLE = Automatic; }; name = Debug; };
+C23B5A69B2E27C3E5F160FC6 = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_NAME = GaleriaUITests; PRODUCT_BUNDLE_IDENTIFIER = com.galeria.personal.uitests; GENERATE_INFOPLIST_FILE = YES; TEST_TARGET_NAME = Galeria; TARGETED_DEVICE_FAMILY = 1; SWIFT_VERSION = 5.0; CODE_SIGN_STYLE = Automatic; }; name = Release; };
+FB47F8FFD0C900B005E1923C = { isa = XCConfigurationList; buildConfigurations = (156F725150A84FCB69393542,C23B5A69B2E27C3E5F160FC6,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+554A54670641A9ADACBED38F = { isa = PBXNativeTarget; buildConfigurationList = FB47F8FFD0C900B005E1923C; buildPhases = (6AD5D292D15FD66B4DB37194,); buildRules = (); dependencies = (FD701F7B039F2322FD3D8588,); name = GaleriaUITests; productName = GaleriaUITests; productReference = 93B29C63186928624CCE7B68; productType = "com.apple.product-type.bundle.ui-testing"; };
+E991C021ABBD2DA6DF032C23 = { isa = PBXGroup; children = (26528A5FC3CFAE9924D0FA33,4D805372C7788730A442D754,0A3E27B8CA818264D75C8D81,); sourceTree = "<group>"; };
 878A52FC5FF6A57D50B7B870 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (9FF2EA8E94F5AE97E000DA72,DBD04104B2F45EF4C5D1A472,2E331DCAF6BC43851295E7F7,58C2293DB3F0FAD232E0A96E,); runOnlyForDeploymentPostprocessing = 0; };
 E2AA269EB967A8853A258BFA = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 41D311A605520FC7B8B9A980 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
@@ -54,5 +65,5 @@ DD75E2CB1C510A828AC72D96 = { isa = XCBuildConfiguration; buildSettings = {
 AAB2723FF2C8E6D1C298C1E4 = { isa = XCConfigurationList; buildConfigurations = (73EBF6644258C120893E685D,0B0C687DF8B6B8DC790B519C,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 04229C262AC03CB8C1234C52 = { isa = XCConfigurationList; buildConfigurations = (6C7EFF6369083C8E1F2B1994,DD75E2CB1C510A828AC72D96,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 34A04005BCAF206EEC990BD9 = { isa = PBXNativeTarget; buildConfigurationList = 04229C262AC03CB8C1234C52; buildPhases = (878A52FC5FF6A57D50B7B870,E2AA269EB967A8853A258BFA,41D311A605520FC7B8B9A980,); buildRules = (); dependencies = (); name = Galeria; productName = Galeria; productReference = A172CEDCAE47474B615C54D5; productType = "com.apple.product-type.application"; };
-244210E48437B6556980A702 = { isa = PBXProject; attributes = { LastUpgradeCheck = 1600; }; buildConfigurationList = AAB2723FF2C8E6D1C298C1E4; compatibilityVersion = "Xcode 14.0"; developmentRegion = es; hasScannedForEncodings = 0; knownRegions = (es, Base,); mainGroup = E991C021ABBD2DA6DF032C23; productRefGroup = 0A3E27B8CA818264D75C8D81; projectDirPath = ""; projectRoot = ""; targets = (34A04005BCAF206EEC990BD9,); };
+244210E48437B6556980A702 = { isa = PBXProject; attributes = { LastUpgradeCheck = 1600; }; buildConfigurationList = AAB2723FF2C8E6D1C298C1E4; compatibilityVersion = "Xcode 14.0"; developmentRegion = es; hasScannedForEncodings = 0; knownRegions = (es, Base,); mainGroup = E991C021ABBD2DA6DF032C23; productRefGroup = 0A3E27B8CA818264D75C8D81; projectDirPath = ""; projectRoot = ""; targets = (34A04005BCAF206EEC990BD9,554A54670641A9ADACBED38F,); };
 }; rootObject = 244210E48437B6556980A702; }
